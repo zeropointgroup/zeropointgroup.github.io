@@ -53,27 +53,28 @@
       filter:saturate(1.2) blur(.15px);
     }
 
+    /* UFO animation with a pause */
     @keyframes flyby-stop {
       0%   {opacity:0; transform:translateX(-220px) scale(.85) rotate(-2deg);}
       15%  {opacity:1;}
-      45%  {transform:translateX(40vw) rotate(1deg);}
-      65%  {transform:translateX(40vw) rotate(1deg);} /* UFO holds while alien peeks */
+      40%  {transform:translateX(40vw) rotate(1deg);}   /* arrive */
+      60%  {transform:translateX(40vw) rotate(1deg);}   /* hold */
       100% {opacity:0; transform:translateX(calc(100vw + 260px)) scale(1.05) rotate(-3deg);}
     }
 
     @keyframes beamFade {0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}}
     @keyframes abduct {0%{opacity:1; transform:translateY(0)}100%{opacity:0; transform:translateY(-200px)}}
 
-    /* Alien: descend halfway, wiggle, then return */
+    /* Alien: descend, wiggle, return */
     @keyframes alienPeek {
       0%   {transform:translateY(0); opacity:0;}       /* inside UFO */
-      10%  {opacity:1;}                                /* fade in */
+      10%  {opacity:1;}
       25%  {transform:translateY(100px); opacity:1;}   /* descend */
-      45%  {transform:translateY(100px) rotate(-8deg);}/* wiggle */
+      45%  {transform:translateY(100px) rotate(-8deg);}
       55%  {transform:translateY(100px) rotate(8deg);}
       65%  {transform:translateY(100px) rotate(-8deg);}
       75%  {transform:translateY(100px) rotate(8deg);}
-      100% {transform:translateY(0); opacity:0;}       /* back inside UFO */
+      100% {transform:translateY(0); opacity:0;}       /* back inside */
     }
 
     header{ padding:2rem; display:flex; justify-content:space-between; align-items:center; }
