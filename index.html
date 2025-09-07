@@ -51,21 +51,19 @@
 
     /* UFO */
     .ufo{
-      position:fixed; top:-60px; left:-220px;
       width:130px; height:46px; border-radius:50% / 65%;
-      z-index:-1; pointer-events:none; opacity:0;
       background:
         radial-gradient(ellipse at 50% 15%, rgba(0,255,255,.65), rgba(0,255,255,0) 60%),
         radial-gradient(ellipse at 50% 60%, #7f8c8d 0%, #4d5656 65%, #2c3e50 100%);
       box-shadow: 0 0 14px rgba(0,255,255,.5), 0 10px 18px rgba(0,0,0,.35) inset;
       filter:saturate(1.2) blur(.15px);
-      animation:flyby 9s linear forwards;
     }
+
     @keyframes flyby{
-      0%{opacity:0; transform:translate3d(-220px,0,0) scale(.85) rotate(-2deg)}
-      8%{opacity:.85}
-      50%{transform:translate3d(50vw,18vh,0) rotate(1.5deg)}
-      100%{opacity:0; transform:translate3d(calc(100vw + 260px),6vh,0) scale(1.05) rotate(-3deg)}
+      0%   {opacity:0; transform:translate3d(-220px,0,0) scale(.85) rotate(-2deg)}
+      8%   {opacity:.85}
+      50%  {transform:translate3d(50vw,0,0)  rotate(1.5deg)}
+      100% {opacity:0; transform:translate3d(calc(100vw + 260px),0,0) scale(1.05) rotate(-3deg)}
     }
 
     header{ padding:2rem; display:flex; justify-content:space-between; align-items:center; }
@@ -93,7 +91,7 @@
 
     /* Abduction animations */
     @keyframes beamFade { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
-    @keyframes abduct { 0%{opacity:1; transform:translate(-50%,0)} 100%{opacity:0; transform:translate(-50%,-200px)} }
+    @keyframes abduct { 0%{opacity:1; transform:translateY(0)} 100%{opacity:0; transform:translateY(-200px)} }
   </style>
 </head>
 <body class="dark">
@@ -217,7 +215,7 @@
     }
     setInterval(()=>{ if (Math.random() < 0.25) createShootingStar(); }, 3500);
 
-    // UFO randomiser (with emoji abductees)
+    // UFO randomiser (with emoji abductees tracking UFO)
     function triggerUFO() {
       const modes = ["flyby", "weightlifter", "sexygirl", "cow"];
       const choice = modes[Math.floor(Math.random() * modes.length)];
@@ -226,46 +224,49 @@
     }
 
     function launchUFO(mode="flyby"){
+      const container = document.createElement('div');
+      container.style.position = "fixed";
+      container.style.left = "-220px"; // start off-screen
+      const topPos = (Math.random()*window.innerHeight*0.25 + 20);
+      container.style.top = topPos + "px";
+      const duration = (8 + Math.random()*4);
+      container.style.animation = `flyby ${duration}s linear forwards`;
+      container.style.opacity = "0";
+      container.style.animationFillMode = "forwards";
+
       const ufo = document.createElement('div');
       ufo.className = 'ufo';
-
-      const topPos = (Math.random()*window.innerHeight*0.25 + 20);
-      ufo.style.top  = topPos + 'px';
-      ufo.style.animationDuration = (8 + Math.random()*4) + 's';
-      ufo.style.filter = Math.random() < .5 ? 'saturate(1.3) hue-rotate(10deg)' : 'saturate(1.1)';
-      document.body.appendChild(ufo);
+      container.appendChild(ufo);
 
       if (mode !== "flyby") {
-        const beamLeft = 200; // fixed for now, approx UFO center
         const beam = document.createElement('div');
-        beam.style.position = "fixed";
-        beam.style.left = beamLeft + "px";
-        beam.style.top = (topPos + 46) + "px";
+        beam.style.position = "absolute";
+        beam.style.left = "25px";
+        beam.style.top = "46px";
         beam.style.width = "80px";
         beam.style.height = "200px";
         beam.style.background = "linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0))";
-        beam.style.zIndex = "-2";
+        beam.style.zIndex = "-1";
         beam.style.opacity = "0";
         beam.style.animation = "beamFade 4s forwards";
-        document.body.appendChild(beam);
+        container.appendChild(beam);
 
         const abductee = document.createElement('div');
-        abductee.style.position = "fixed";
-        abductee.style.left = (beamLeft + 25) + "px";
-        abductee.style.top = (topPos + 200) + "px";
+        abductee.style.position = "absolute";
+        abductee.style.left = "55px";
+        abductee.style.top = "200px";
         abductee.style.fontSize = "28px";
-
         if (mode === "weightlifter") abductee.textContent = "🏋️‍♂️";
         if (mode === "sexygirl") abductee.textContent = "💃";
         if (mode === "cow") abductee.textContent = "🐄";
-
         abductee.style.animation = "abduct 4s forwards";
-        document.body.appendChild(abductee);
+        container.appendChild(abductee);
 
         setTimeout(()=>{ beam.remove(); abductee.remove(); }, 4500);
       }
 
-      setTimeout(()=>ufo.remove(), 13000);
+      document.body.appendChild(container);
+      setTimeout(()=>container.remove(), duration*1000 + 500);
     }
 
     setInterval(()=>{ if (Math.random() < 0.10) triggerUFO(); }, 8000);
