@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zero Point Group</title>
-
     <style>
       body {
         margin: 0;
         font-family: system-ui, sans-serif;
-        background: #000; /* fallback */
+        background: #000;
         overflow-x: hidden;
         color: #eaeaea;
         transition: background 0.5s, color 0.5s;
@@ -18,51 +17,79 @@
       /* --- STARFIELD --- */
       .stars, .stars2, .stars3 {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 1px;
-        height: 1px;
+        top: 0; left: 0;
+        width: 200%;
+        height: 200%;
         background: transparent;
-        box-shadow: 
-          100px 200px white, 300px 400px white, 600px 100px white,
-          800px 700px white, 1200px 300px white, 1500px 500px white,
-          1700px 200px white, 1900px 600px white,
-          250px 800px white, 450px 900px white, 750px 1200px white,
-          1050px 400px white, 1300px 1000px white, 1600px 900px white;
-        z-index: -1;
-        animation: animStars 100s linear infinite;
+        z-index: -2;
+        pointer-events: none;
       }
 
+      .stars {
+        background: radial-gradient(white, rgba(255,255,255,0)) 1px 1px/2px 2px repeat;
+        animation: animStars 80s linear infinite;
+      }
       .stars2 {
-        width: 2px;
-        height: 2px;
-        box-shadow: 
-          200px 100px white, 400px 600px white, 700px 200px white,
-          900px 500px white, 1400px 400px white, 1600px 700px white,
-          300px 1100px white, 500px 1300px white, 900px 1500px white;
-        animation: animStars 200s linear infinite;
+        background: radial-gradient(white, rgba(255,255,255,0)) 2px 2px/4px 4px repeat;
+        animation: animStars 160s linear infinite;
       }
-
       .stars3 {
-        width: 3px;
-        height: 3px;
-        box-shadow: 
-          150px 250px white, 350px 450px white, 650px 350px white,
-          1100px 150px white, 1300px 600px white, 1800px 500px white;
-        animation: animStars 300s linear infinite;
+        background: radial-gradient(white, rgba(255,255,255,0)) 3px 3px/6px 6px repeat;
+        animation: animStars 240s linear infinite;
       }
 
       @keyframes animStars {
         from { transform: translateY(0); }
-        to { transform: translateY(-2000px); }
+        to   { transform: translateY(-50%); }
       }
 
-      /* --- THEME TOGGLE --- */
+      /* Twinkling */
+      .twinkle {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .twinkle span {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.2;
+        animation: twinkle 2s infinite alternate;
+      }
+
+      @keyframes twinkle {
+        from { opacity: 0.2; }
+        to   { opacity: 1; }
+      }
+
+      /* Shooting stars */
+      .shooting-star {
+        position: absolute;
+        width: 2px;
+        height: 80px;
+        background: linear-gradient(-45deg, white, rgba(255,255,255,0));
+        opacity: 0;
+        transform: rotate(45deg);
+        animation: shoot 2s linear;
+      }
+
+      @keyframes shoot {
+        0%   { opacity: 1; transform: translate(0,0) rotate(45deg); }
+        100% { opacity: 0; transform: translate(-600px,600px) rotate(45deg); }
+      }
+
+      /* --- CONTENT --- */
       body.light {
         background: #fff;
         color: #111;
       }
-
       body.dark {
         background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
         color: #eee;
@@ -71,7 +98,6 @@
 
       header {
         padding: 2rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -93,20 +119,19 @@
       }
 
       .card {
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255,255,255,0.15);
         border-radius: 1rem;
         padding: 1.5rem;
         margin-top: 1rem;
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0,0,0,0.4);
       }
-
       body.light .card {
         background: #fff;
         border: 1px solid #ddd;
       }
 
       footer {
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        border-top: 1px solid rgba(255,255,255,0.15);
         padding: 2rem;
         text-align: center;
         font-size: 0.9rem;
@@ -114,12 +139,13 @@
     </style>
   </head>
   <body class="dark">
-    <!-- 🌌 Starfield background -->
+    <!-- STARFIELD -->
     <div class="stars"></div>
     <div class="stars2"></div>
     <div class="stars3"></div>
+    <div class="twinkle" id="twinkle"></div>
 
-    <!-- Main content -->
+    <!-- CONTENT -->
     <header>
       <h1>Zero Point Group</h1>
       <button class="toggle-btn" onclick="toggleTheme()">Toggle Theme</button>
@@ -128,9 +154,9 @@
     <section class="section">
       <h2>Research, without compromise.</h2>
       <p>
-        ZPG builds and distributes institutional-grade equity research and strategy. Our imprints
-        let us publish with absolute clarity of intent — from visionary technology to conservative
-        coverage and sharp contrarian takes.
+        ZPG builds and distributes institutional-grade equity research and strategy.
+        Our imprints let us publish with absolute clarity of intent — from visionary technology
+        to conservative coverage and sharp contrarian takes.
       </p>
       <button class="toggle-btn">Contact</button>
     </section>
@@ -182,12 +208,39 @@
       © <span id="year"></span> Zero Point Group Ltd. All rights reserved.
     </footer>
 
+    <!-- SCRIPT -->
     <script>
+      // Theme toggle
       function toggleTheme() {
         document.body.classList.toggle("dark");
         document.body.classList.toggle("light");
       }
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Add twinkling stars
+      const twinkleContainer = document.getElementById("twinkle");
+      for (let i = 0; i < 120; i++) {
+        const star = document.createElement("span");
+        star.style.top = Math.random() * 100 + "%";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.animationDuration = (1 + Math.random() * 3) + "s";
+        twinkleContainer.appendChild(star);
+      }
+
+      // Shooting stars
+      function createShootingStar() {
+        const star = document.createElement("div");
+        star.className = "shooting-star";
+        star.style.top = Math.random() * window.innerHeight + "px";
+        star.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(star);
+
+        setTimeout(() => star.remove(), 2000);
+      }
+
+      setInterval(() => {
+        if (Math.random() < 0.2) createShootingStar();
+      }, 4000);
     </script>
   </body>
 </html>
