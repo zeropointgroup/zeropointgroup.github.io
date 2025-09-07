@@ -63,12 +63,16 @@
 
     @keyframes beamFade {0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}}
     @keyframes abduct {0%{opacity:1; transform:translateY(0)}100%{opacity:0; transform:translateY(-200px)}}
-    @keyframes alienWiggle {
-      0%{transform:translateY(0) rotate(0deg)}
-      25%{transform:translateY(-5px) rotate(-10deg)}
-      50%{transform:translateY(0) rotate(10deg)}
-      75%{transform:translateY(-5px) rotate(-10deg)}
-      100%{transform:translateY(-200px) rotate(0deg); opacity:0}
+
+    /* Alien: descend halfway, wiggle, return */
+    @keyframes alienPeek {
+      0%   {transform:translateY(0); opacity:1;}
+      25%  {transform:translateY(80px);} /* descend */
+      45%  {transform:translateY(80px) rotate(-8deg);} /* wiggle */
+      55%  {transform:translateY(80px) rotate(8deg);}
+      65%  {transform:translateY(80px) rotate(-8deg);}
+      75%  {transform:translateY(80px) rotate(8deg);}
+      100% {transform:translateY(0); opacity:0;} /* back into craft */
     }
 
     header{ padding:2rem; display:flex; justify-content:space-between; align-items:center; }
@@ -131,13 +135,8 @@
     function createShootingStar(){ const el=document.createElement('div'); el.className='shooting-star'; el.style.top=(Math.random()*window.innerHeight*0.6)+'px'; el.style.left=(Math.random()*window.innerWidth*0.8+window.innerWidth*0.2)+'px'; document.body.appendChild(el); setTimeout(()=>el.remove(),1900); }
     setInterval(()=>{ if(Math.random()<0.25) createShootingStar(); },3500);
 
-   // UFO (debug mode: force alien often)
-function triggerUFO(){
-  const modes = ["alien","alien","alien","alien","alien"]; // 👽 every time
-  const choice = modes[Math.floor(Math.random() * modes.length)];
-  console.log("🛸 UFO event triggered:", choice);
-  launchUFO(choice);
-} 
+    // UFO
+    function triggerUFO(){ const modes=["flyby","weightlifter","sexygirl","cow","alien"]; const choice=modes[Math.floor(Math.random()*modes.length)]; console.log("🛸 UFO event triggered:",choice); launchUFO(choice); }
 
     function launchUFO(mode="flyby"){
       const container=document.createElement('div'); container.style.position="fixed"; container.style.left="-220px"; const topPos=(Math.random()*window.innerHeight*0.25+20); container.style.top=topPos+"px"; const duration=(10+Math.random()*3); container.style.animation=`flyby-stop ${duration}s linear forwards`;
@@ -153,7 +152,7 @@ function triggerUFO(){
           if(mode==="weightlifter"){ abductee.textContent="🏋️‍♂️"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
           if(mode==="sexygirl"){ abductee.textContent="💃"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
           if(mode==="cow"){ abductee.textContent="🐄"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
-          if(mode==="alien"){ abductee.textContent="👽"; abductee.style.top="120px"; abductee.style.animation="alienWiggle 4s forwards"; }
+          if(mode==="alien"){ abductee.textContent="👽"; abductee.style.top="46px"; abductee.style.animation="alienPeek 4s forwards"; }
 
           container.appendChild(abductee);
           setTimeout(()=>{ beam.remove(); abductee.remove(); },4500);
