@@ -67,14 +67,14 @@
 
     /* Alien: descend, wiggle, return */
     @keyframes alienPeek {
-      0%   {transform:translateY(0); opacity:0;}       /* inside UFO */
+      0%   {transform:translateY(0); opacity:0;}
       10%  {opacity:1;}
-      25%  {transform:translateY(100px); opacity:1;}   /* descend */
+      25%  {transform:translateY(100px); opacity:1;}
       45%  {transform:translateY(100px) rotate(-8deg);}
       55%  {transform:translateY(100px) rotate(8deg);}
       65%  {transform:translateY(100px) rotate(-8deg);}
       75%  {transform:translateY(100px) rotate(8deg);}
-      100% {transform:translateY(0); opacity:0;}       /* back inside */
+      100% {transform:translateY(0); opacity:0;}
     }
 
     header{ padding:2rem; display:flex; justify-content:space-between; align-items:center; }
@@ -167,6 +167,14 @@
 
     // Events: ~every 8s, 10% chance
     setInterval(()=>{ if(Math.random()<0.10) triggerUFO(); },8000);
+
+    // === SECRET CHEAT CODE ===
+    window.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "u") {
+        console.log("🛸 Cheat code activated: manual UFO launch!");
+        triggerUFO();
+      }
+    });
   </script>
 </body>
 </html>
