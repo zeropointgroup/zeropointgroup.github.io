@@ -28,14 +28,9 @@
     }
     body.light{ background:var(--light-bg); color:var(--light-fg); }
 
-    /* STARFIELD CANVAS */
-    #starfield{
-      position:fixed; inset:0; width:100%; height:100%;
-      z-index:-3; display:block; pointer-events:none;
-    }
+    #starfield{position:fixed; inset:0; width:100%; height:100%; z-index:-3; display:block; pointer-events:none;}
     body.light #starfield{ opacity:.08 }
 
-    /* Shooting stars */
     .shooting-star{
       position:fixed; width:2px; height:90px;
       background:linear-gradient(-45deg,#fff,rgba(255,255,255,0));
@@ -49,7 +44,6 @@
       100%{opacity:0; transform:translate3d(-650px,650px,0) rotate(45deg)}
     }
 
-    /* UFO saucer */
     .ufo{
       width:130px; height:46px; border-radius:50% / 65%;
       background:
@@ -59,41 +53,33 @@
       filter:saturate(1.2) blur(.15px);
     }
 
-    /* Two-phase UFO flight */
     @keyframes flyby-stop {
       0%   {opacity:0; transform:translateX(-220px) scale(.85) rotate(-2deg);}
       15%  {opacity:1;}
       45%  {transform:translateX(40vw) rotate(1deg);}
-      55%  {transform:translateX(40vw) rotate(1deg);} /* pause */
+      55%  {transform:translateX(40vw) rotate(1deg);}
       100% {opacity:0; transform:translateX(calc(100vw + 260px)) scale(1.05) rotate(-3deg);}
     }
 
-    /* Abduction animations */
-    @keyframes beamFade { 0%{opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
-    @keyframes abduct { 0%{opacity:1; transform:translateY(0)} 100%{opacity:0; transform:translateY(-200px)} }
+    @keyframes beamFade {0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}}
+    @keyframes abduct {0%{opacity:1; transform:translateY(0)}100%{opacity:0; transform:translateY(-200px)}}
+    @keyframes alienWiggle {
+      0%{transform:translateY(0) rotate(0deg)}
+      25%{transform:translateY(-5px) rotate(-10deg)}
+      50%{transform:translateY(0) rotate(10deg)}
+      75%{transform:translateY(-5px) rotate(-10deg)}
+      100%{transform:translateY(-200px) rotate(0deg); opacity:0}
+    }
 
     header{ padding:2rem; display:flex; justify-content:space-between; align-items:center; }
-    .toggle-btn{
-      background:var(--brand); color:#fff; border:none;
-      padding:.55rem 1rem; border-radius:.6rem; cursor:pointer;
-      box-shadow:0 6px 18px rgba(37,99,235,.25);
-    }
+    .toggle-btn{ background:var(--brand); color:#fff; border:none; padding:.55rem 1rem; border-radius:.6rem; cursor:pointer; box-shadow:0 6px 18px rgba(37,99,235,.25); }
 
     .section{max-width:1000px; margin:0 auto; padding:3rem 1.5rem}
-    .card{
-      border:1px solid var(--card-bd-dark);
-      border-radius:1rem; padding:1.5rem; margin-top:1rem;
-      background:var(--card-bg-dark);
-      backdrop-filter:saturate(120%) blur(2px);
-    }
+    .card{ border:1px solid var(--card-bd-dark); border-radius:1rem; padding:1.5rem; margin-top:1rem; background:var(--card-bg-dark); backdrop-filter:saturate(120%) blur(2px); }
     body.light .card{ background:#fff; border:1px solid var(--card-bd-light); backdrop-filter:none; }
 
     footer{ border-top:1px solid var(--card-bd-dark); padding:2rem; text-align:center; font-size:.9rem; }
     body.light footer{ border-top:1px solid #eee }
-
-    @media (prefers-reduced-motion:reduce){
-      .shooting-star,.ufo{animation-duration:0s; animation-play-state:paused}
-    }
   </style>
 </head>
 <body class="dark">
@@ -106,174 +92,75 @@
 
   <section class="section">
     <h2>Research, without compromise.</h2>
-    <p>
-      ZPG builds and distributes institutional-grade equity research and strategy.
-      Our imprints let us publish with absolute clarity of intent — from visionary technology
-      to conservative coverage and sharp contrarian takes.
-    </p>
+    <p>ZPG builds and distributes institutional-grade equity research and strategy. Our imprints let us publish with absolute clarity of intent — from visionary technology to conservative coverage and sharp contrarian takes.</p>
     <a class="toggle-btn" href="mailto:contact@zeropointgroup.uk">Contact</a>
   </section>
 
   <section class="section">
     <h2>Research Imprints</h2>
-    <div class="card">
-      <h3>O.Research</h3>
-      <p>Visionary, future-facing coverage across technology, digital infrastructure, and frontier themes.</p>
-    </div>
-    <div class="card">
-      <h3>Rock Research</h3>
-      <p>Weighty, sober coverage for companies that value stability, clarity, and credibility.</p>
-    </div>
-    <div class="card">
-      <h3>Pirate Research</h3>
-      <p>Unvarnished takes and special-situation notes. When the truth needs teeth.</p>
-    </div>
+    <div class="card"><h3>O.Research</h3><p>Visionary, future-facing coverage across technology, digital infrastructure, and frontier themes.</p></div>
+    <div class="card"><h3>Rock Research</h3><p>Weighty, sober coverage for companies that value stability, clarity, and credibility.</p></div>
+    <div class="card"><h3>Pirate Research</h3><p>Unvarnished takes and special-situation notes. When the truth needs teeth.</p></div>
   </section>
 
   <section class="section">
     <h2>What we do</h2>
-    <div class="card">
-      <h3>Institutional research</h3>
-      <ul>
-        <li>Flagship and update notes</li>
-        <li>Sector & thematic primers</li>
-        <li>Corporate access support</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>White-label production</h3>
-      <ul>
-        <li>House style adherence</li>
-        <li>Confidential, compliant workflows</li>
-        <li>Fast turnarounds, clean output</li>
-      </ul>
-    </div>
+    <div class="card"><h3>Institutional research</h3><ul><li>Flagship and update notes</li><li>Sector & thematic primers</li><li>Corporate access support</li></ul></div>
+    <div class="card"><h3>White-label production</h3><ul><li>House style adherence</li><li>Confidential, compliant workflows</li><li>Fast turnarounds, clean output</li></ul></div>
   </section>
 
   <section class="section">
     <h2>Contact</h2>
-    <div class="card">
-      <p>Email: <a href="mailto:contact@zeropointgroup.uk">contact@zeropointgroup.uk</a></p>
-    </div>
+    <div class="card"><p>Email: <a href="mailto:contact@zeropointgroup.uk">contact@zeropointgroup.uk</a></p></div>
   </section>
 
-  <footer>
-    © <span id="year"></span> Zero Point Group Ltd. All rights reserved.
-  </footer>
+  <footer>© <span id="year"></span> Zero Point Group Ltd. All rights reserved.</footer>
 
   <script>
-    // Theme toggle
-    function toggleTheme(){
-      document.body.classList.toggle('dark');
-      document.body.classList.toggle('light');
-    }
+    function toggleTheme(){ document.body.classList.toggle('dark'); document.body.classList.toggle('light'); }
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Starfield
-    const canvas = document.getElementById('starfield');
-    const ctx = canvas.getContext('2d', { alpha:true });
-    let stars = [], w=0, h=0, lastTime=0;
-
-    function resize(){
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = canvas.width  = Math.floor(window.innerWidth  * dpr);
-      h = canvas.height = Math.floor(window.innerHeight * dpr);
-      canvas.style.width  = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-      const target = Math.min(600, Math.max(180, Math.round((w*h)/(15000))));
-      stars = new Array(target).fill().map(()=>({
-        x: Math.random()*w, y: Math.random()*h,
-        z: Math.random()*1.2 + 0.2, r: Math.random()*1.3 + 0.2,
-        tw: Math.random()*2 + 0.5, ph: Math.random()*Math.PI*2,
-        sp: Math.random()*0.07 + 0.03
-      }));
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    function draw(t){
-      const dt = (t - lastTime) / 16.67; lastTime = t;
-      ctx.clearRect(0,0,w,h);
-      ctx.save(); ctx.fillStyle = '#fff';
-      for (let i=0;i<stars.length;i++){
-        const s = stars[i];
-        s.y += s.sp * s.z * dt * 8; if (s.y > h + 2){ s.y = -2; s.x = Math.random()*w; }
-        s.x += Math.sin((t/10000) + i)*0.05;
-        const a = 0.4 + 0.6 * Math.abs(Math.sin((t/1000)*s.tw + s.ph));
-        ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(s.x, s.y, s.r*s.z, 0, Math.PI*2); ctx.fill();
-      }
-      ctx.restore(); requestAnimationFrame(draw);
-    }
-    requestAnimationFrame(draw);
+    const canvas = document.getElementById('starfield'); const ctx = canvas.getContext('2d',{alpha:true});
+    let stars=[],w=0,h=0,lastTime=0;
+    function resize(){ const dpr=Math.min(window.devicePixelRatio||1,2); w=canvas.width=Math.floor(window.innerWidth*dpr); h=canvas.height=Math.floor(window.innerHeight*dpr); canvas.style.width=window.innerWidth+'px'; canvas.style.height=window.innerHeight+'px'; const target=Math.min(600,Math.max(180,Math.round((w*h)/(15000)))); stars=new Array(target).fill().map(()=>({x:Math.random()*w,y:Math.random()*h,z:Math.random()*1.2+0.2,r:Math.random()*1.3+0.2,tw:Math.random()*2+0.5,ph:Math.random()*Math.PI*2,sp:Math.random()*0.07+0.03})); }
+    window.addEventListener('resize',resize); resize();
+    function draw(t){ const dt=(t-lastTime)/16.67; lastTime=t; ctx.clearRect(0,0,w,h); ctx.save(); ctx.fillStyle='#fff'; for(let i=0;i<stars.length;i++){const s=stars[i]; s.y+=s.sp*s.z*dt*8; if(s.y>h+2){s.y=-2; s.x=Math.random()*w;} s.x+=Math.sin((t/10000)+i)*0.05; const a=0.4+0.6*Math.abs(Math.sin((t/1000)*s.tw+s.ph)); ctx.globalAlpha=a; ctx.beginPath(); ctx.arc(s.x,s.y,s.r*s.z,0,Math.PI*2); ctx.fill();} ctx.restore(); requestAnimationFrame(draw);} requestAnimationFrame(draw);
 
     // Shooting stars
-    function createShootingStar(){
-      const el = document.createElement('div');
-      el.className = 'shooting-star';
-      el.style.top  = (Math.random()*window.innerHeight*0.6)+'px';
-      el.style.left = (Math.random()*window.innerWidth*0.8 + window.innerWidth*0.2)+'px';
-      document.body.appendChild(el);
-      setTimeout(()=>el.remove(), 1900);
-    }
-    setInterval(()=>{ if (Math.random() < 0.25) createShootingStar(); }, 3500);
+    function createShootingStar(){ const el=document.createElement('div'); el.className='shooting-star'; el.style.top=(Math.random()*window.innerHeight*0.6)+'px'; el.style.left=(Math.random()*window.innerWidth*0.8+window.innerWidth*0.2)+'px'; document.body.appendChild(el); setTimeout(()=>el.remove(),1900); }
+    setInterval(()=>{ if(Math.random()<0.25) createShootingStar(); },3500);
 
-    // UFO randomiser
-    function triggerUFO() {
-      const modes = ["flyby", "weightlifter", "sexygirl", "cow"];
-      const choice = modes[Math.floor(Math.random() * modes.length)];
-      console.log("🛸 UFO event triggered:", choice);
-      launchUFO(choice);
-    }
+    // UFO
+    function triggerUFO(){ const modes=["flyby","weightlifter","sexygirl","cow","alien"]; const choice=modes[Math.floor(Math.random()*modes.length)]; console.log("🛸 UFO event triggered:",choice); launchUFO(choice); }
 
     function launchUFO(mode="flyby"){
-      const container = document.createElement('div');
-      container.style.position = "fixed";
-      container.style.left = "-220px";
-      const topPos = (Math.random()*window.innerHeight*0.25 + 20);
-      container.style.top = topPos + "px";
-      const duration = (10 + Math.random()*3);
-      container.style.animation = `flyby-stop ${duration}s linear forwards`;
+      const container=document.createElement('div'); container.style.position="fixed"; container.style.left="-220px"; const topPos=(Math.random()*window.innerHeight*0.25+20); container.style.top=topPos+"px"; const duration=(10+Math.random()*3); container.style.animation=`flyby-stop ${duration}s linear forwards`;
 
-      const ufo = document.createElement('div');
-      ufo.className = 'ufo';
-      container.appendChild(ufo);
+      const ufo=document.createElement('div'); ufo.className='ufo'; container.appendChild(ufo);
 
-      if (mode !== "flyby") {
+      if(mode!=="flyby"){
         setTimeout(()=>{
-          const beam = document.createElement('div');
-          beam.style.position = "absolute";
-          beam.style.left = "25px";
-          beam.style.top = "46px";
-          beam.style.width = "80px";
-          beam.style.height = "200px";
-          beam.style.background = "linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0))";
-          beam.style.zIndex = "-1";
-          beam.style.opacity = "0";
-          beam.style.animation = "beamFade 4s forwards";
-          container.appendChild(beam);
+          const beam=document.createElement('div'); beam.style.position="absolute"; beam.style.left="25px"; beam.style.top="46px"; beam.style.width="80px"; beam.style.height="200px"; beam.style.background="linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0))"; beam.style.zIndex="-1"; beam.style.opacity="0"; beam.style.animation="beamFade 4s forwards"; container.appendChild(beam);
 
-          const abductee = document.createElement('div');
-          abductee.style.position = "absolute";
-          abductee.style.left = "55px";
-          abductee.style.top = "200px";
-          abductee.style.fontSize = "28px";
-          if (mode === "weightlifter") abductee.textContent = "🏋️‍♂️";
-          if (mode === "sexygirl") abductee.textContent = "💃";
-          if (mode === "cow") abductee.textContent = "🐄";
-          abductee.style.animation = "abduct 4s forwards";
+          const abductee=document.createElement('div'); abductee.style.position="absolute"; abductee.style.left="55px"; abductee.style.fontSize="28px";
+
+          if(mode==="weightlifter"){ abductee.textContent="🏋️‍♂️"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
+          if(mode==="sexygirl"){ abductee.textContent="💃"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
+          if(mode==="cow"){ abductee.textContent="🐄"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
+          if(mode==="alien"){ abductee.textContent="👽"; abductee.style.top="120px"; abductee.style.animation="alienWiggle 4s forwards"; }
+
           container.appendChild(abductee);
-
-          setTimeout(()=>{ beam.remove(); abductee.remove(); }, 4500);
-        }, duration*0.45*1000); // beam during pause
+          setTimeout(()=>{ beam.remove(); abductee.remove(); },4500);
+        }, duration*0.45*1000);
       }
 
       document.body.appendChild(container);
-      setTimeout(()=>container.remove(), duration*1000 + 500);
+      setTimeout(()=>container.remove(), duration*1000+500);
     }
-// Debug mode: much higher activity
-setInterval(()=>{
-  if (Math.random() < 0.5) triggerUFO();   // 50% chance
-}, 5000); // every 5 seconds
+
+    // Events: ~every 8s, 10% chance
+    setInterval(()=>{ if(Math.random()<0.10) triggerUFO(); },8000);
   </script>
 </body>
 </html>
