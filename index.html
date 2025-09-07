@@ -4,20 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zero Point Group</title>
+
+    <!-- Starfield styles -->
     <style>
       body {
         margin: 0;
         font-family: system-ui, sans-serif;
+        background: #000; /* fallback */
+        overflow-x: hidden;
+        color: #eaeaea;
         transition: background 0.5s, color 0.5s;
       }
 
-      /* Default light mode */
+      /* Starfield layers */
+      .stars, .stars2, .stars3 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+        background: transparent;
+        z-index: -1;
+      }
+
+      .stars {
+        background: radial-gradient(white, rgba(255,255,255,0)) 1px 1px/3px 3px repeat;
+        animation: animStars 100s linear infinite;
+      }
+
+      .stars2 {
+        background: radial-gradient(white, rgba(255,255,255,0)) 2px 2px/6px 6px repeat;
+        animation: animStars 200s linear infinite;
+      }
+
+      .stars3 {
+        background: radial-gradient(white, rgba(255,255,255,0)) 3px 3px/12px 12px repeat;
+        animation: animStars 300s linear infinite;
+      }
+
+      @keyframes animStars {
+        from { transform: translateY(0); }
+        to { transform: translateY(-50%); }
+      }
+
+      /* Theme toggle */
       body.light {
         background: #fff;
         color: #111;
       }
 
-      /* Dark starry mode */
       body.dark {
         background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
         color: #eee;
@@ -69,6 +104,12 @@
     </style>
   </head>
   <body class="dark">
+    <!-- 🌌 Starfield background -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <!-- Main content -->
     <header>
       <h1>Zero Point Group</h1>
       <button class="toggle-btn" onclick="toggleTheme()">Toggle Theme</button>
