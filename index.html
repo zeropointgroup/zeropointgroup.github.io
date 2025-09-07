@@ -270,8 +270,10 @@
       document.body.appendChild(container);
       setTimeout(()=>container.remove(), duration*1000 + 500);
     }
-
-    setInterval(()=>{ if (Math.random() < 0.10) triggerUFO(); }, 8000);
+// Debug mode: much higher activity
+setInterval(()=>{
+  if (Math.random() < 0.5) triggerUFO();   // 50% chance
+}, 5000); // every 5 seconds
   </script>
 </body>
 </html>
