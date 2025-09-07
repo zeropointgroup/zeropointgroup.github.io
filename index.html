@@ -38,10 +38,9 @@
       width:100%; height:100%;
       z-index:-3; display:block; pointer-events:none;
     }
-    /* Lower starfield contrast in light mode */
     body.light #starfield{ opacity:.08 }
 
-    /* Shooting stars (CSS element, short life) */
+    /* Shooting stars */
     .shooting-star{
       position:fixed;
       width:2px; height:90px;
@@ -56,7 +55,7 @@
       100% {opacity:0; transform:translate3d(-650px,650px,0) rotate(45deg)}
     }
 
-    /* UFO fly-by */
+    /* UFO */
     .ufo{
       position:fixed; top:-60px; left:-220px;
       width:130px; height:46px; border-radius:50% / 65%;
@@ -77,7 +76,6 @@
       100% {opacity:.0; transform:translate3d(calc(100vw + 260px),6vh,0) scale(1.05) rotate(-3deg)}
     }
 
-    /* Header / content */
     header{
       padding:2rem;
       display:flex; justify-content:space-between; align-items:center;
@@ -106,17 +104,26 @@
     }
     body.light footer{border-top:1px solid #eee}
 
-    /* Motion-sensitive users */
     @media (prefers-reduced-motion:reduce){
       .shooting-star,.ufo{animation-duration:0s; animation-play-state:paused}
+    }
+
+    /* Animations for abduction beam & target */
+    @keyframes beamFade {
+      0% {opacity:0;}
+      20% {opacity:1;}
+      80% {opacity:1;}
+      100% {opacity:0;}
+    }
+    @keyframes abduct {
+      0% {opacity:1; transform:translate(-50%,0);}
+      100% {opacity:0; transform:translate(-50%,-200px);}
     }
   </style>
 </head>
 <body class="dark">
-  <!-- Canvas starfield (drawn by JS) -->
   <canvas id="starfield"></canvas>
 
-  <!-- CONTENT -->
   <header>
     <h1>Zero Point Group</h1>
     <button class="toggle-btn" onclick="toggleTheme()">Toggle Theme</button>
@@ -187,7 +194,7 @@
     }
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ===== CANVAS STARFIELD (no tiling, no mesh) =====
+    // ===== STARFIELD =====
     const canvas = document.getElementById('starfield');
     const ctx     = canvas.getContext('2d', { alpha:true });
 
@@ -200,38 +207,31 @@
       h = canvas.height = Math.floor(window.innerHeight * dpr);
       canvas.style.width  = window.innerWidth + 'px';
       canvas.style.height = window.innerHeight + 'px';
-      // Star count scales with area; clamp for perf
       const target = Math.min(600, Math.max(180, Math.round((w*h)/(15000))));
       stars = new Array(target).fill().map(()=>({
         x: Math.random()*w,
         y: Math.random()*h,
-        z: Math.random()*1.2 + 0.2,     // depth (parallax)
-        r: Math.random()*1.3 + 0.2,     // radius
-        tw: Math.random()*2 + 0.5,      // twinkle speed
-        ph: Math.random()*Math.PI*2,    // twinkle phase
-        sp: Math.random()*0.07 + 0.03   // drift speed
+        z: Math.random()*1.2 + 0.2,
+        r: Math.random()*1.3 + 0.2,
+        tw: Math.random()*2 + 0.5,
+        ph: Math.random()*Math.PI*2,
+        sp: Math.random()*0.07 + 0.03
       }));
     }
     window.addEventListener('resize', resize);
     resize();
 
     function draw(t){
-      const dt = (t - lastTime) / 16.67; // frames
+      const dt = (t - lastTime) / 16.67;
       lastTime = t;
-
       ctx.clearRect(0,0,w,h);
-
       ctx.save();
       ctx.fillStyle = '#fff';
       for (let i=0;i<stars.length;i++){
         const s = stars[i];
-        // vertical drift with parallax
         s.y += s.sp * s.z * dt * 8;
         if (s.y > h + 2){ s.y = -2; s.x = Math.random()*w; }
-        // subtle side drift
         s.x += Math.sin((t/10000) + i)*0.05;
-
-        // twinkle
         const a = 0.4 + 0.6 * Math.abs(Math.sin((t/1000)*s.tw + s.ph));
         ctx.globalAlpha = a;
         ctx.beginPath();
@@ -239,7 +239,6 @@
         ctx.fill();
       }
       ctx.restore();
-
       requestAnimationFrame(draw);
     }
     requestAnimationFrame(draw);
@@ -257,95 +256,64 @@
       if (Math.random() < 0.25) createShootingStar();
     }, 3500);
 
-    // ===== UFO FLY-BY =====
-    function launchUFO(){
+    // ===== UFO RANDOMISER (Stage 2) =====
+    function triggerUFO() {
+      const modes = ["flyby", "weightlifter", "sexygirl", "cow"];
+      const choice = modes[Math.floor(Math.random() * modes.length)];
+      console.log("🛸 UFO event triggered:", choice);
+      launchUFO(choice);
+    }
+
+    function launchUFO(mode="flyby"){
       const ufo = document.createElement('div');
       ufo.className = 'ufo';
       ufo.style.top  = (Math.random()*window.innerHeight*0.25 + 20) + 'px';
       ufo.style.animationDuration = (8 + Math.random()*4) + 's';
       ufo.style.filter = Math.random() < .5 ? 'saturate(1.3) hue-rotate(10deg)' : 'saturate(1.1)';
       document.body.appendChild(ufo);
+
+      if (mode !== "flyby") {
+        const beam = document.createElement('div');
+        beam.style.position = "fixed";
+        beam.style.left = "50%";
+        beam.style.transform = "translateX(-50%)";
+        beam.style.top = "0px";
+        beam.style.width = "80px";
+        beam.style.height = "200px";
+        beam.style.background = "linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0))";
+        beam.style.zIndex = "-2";
+        beam.style.opacity = "0";
+        beam.style.animation = "beamFade 4s forwards";
+        document.body.appendChild(beam);
+
+        const abductee = document.createElement('div');
+        abductee.style.width = "30px";
+        abductee.style.height = "30px";
+        abductee.style.borderRadius = "6px";
+        abductee.style.position = "fixed";
+        abductee.style.left = "50%";
+        abductee.style.transform = "translateX(-50%)";
+        abductee.style.top = (window.innerHeight * 0.5) + "px";
+
+        if (mode === "weightlifter") abductee.style.background = "red";
+        if (mode === "sexygirl") abductee.style.background = "blue";
+        if (mode === "cow") abductee.style.background = "green";
+
+        abductee.style.animation = "abduct 4s forwards";
+        document.body.appendChild(abductee);
+
+        setTimeout(()=>{
+          beam.remove();
+          abductee.remove();
+        }, 4500);
+      }
+
       setTimeout(()=>ufo.remove(), 13000);
     }
+
     setInterval(()=>{
-      if (Math.random() < 0.10) launchUFO();   // ~occasionally
+      if (Math.random() < 0.10) triggerUFO();
     }, 8000);
   </script>
 </body>
 </html>
-
-// ===== UFO RANDOMISER (Stage 2) =====
-function triggerUFO() {
-  const modes = ["flyby", "weightlifter", "sexygirl", "cow"];
-  const choice = modes[Math.floor(Math.random() * modes.length)];
-  console.log("🛸 UFO event triggered:", choice);
-  launchUFO(choice);
-}
-
-function launchUFO(mode="flyby"){
-  const ufo = document.createElement('div');
-  ufo.className = 'ufo';
-  ufo.style.top  = (Math.random()*window.innerHeight*0.25 + 20) + 'px';
-  ufo.style.animationDuration = (8 + Math.random()*4) + 's';
-  ufo.style.filter = Math.random() < .5 ? 'saturate(1.3) hue-rotate(10deg)' : 'saturate(1.1)';
-  document.body.appendChild(ufo);
-
-  // Create a beam + placeholder abductee if not flyby
-  if (mode !== "flyby") {
-    const beam = document.createElement('div');
-    beam.style.position = "fixed";
-    beam.style.left = "50%";
-    beam.style.transform = "translateX(-50%)";
-    beam.style.top = "0px";
-    beam.style.width = "80px";
-    beam.style.height = "200px";
-    beam.style.background = "linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0))";
-    beam.style.zIndex = "-2";
-    beam.style.opacity = "0";
-    beam.style.animation = "beamFade 4s forwards";
-    document.body.appendChild(beam);
-
-    const abductee = document.createElement('div');
-    abductee.style.width = "30px";
-    abductee.style.height = "30px";
-    abductee.style.borderRadius = "6px";
-    abductee.style.position = "fixed";
-    abductee.style.left = "50%";
-    abductee.style.transform = "translateX(-50%)";
-    abductee.style.top = (window.innerHeight * 0.5) + "px";
-
-    if (mode === "weightlifter") abductee.style.background = "red";
-    if (mode === "sexygirl") abductee.style.background = "blue";
-    if (mode === "cow") abductee.style.background = "green";
-
-    abductee.style.animation = "abduct 4s forwards";
-    document.body.appendChild(abductee);
-
-    setTimeout(()=>{
-      beam.remove();
-      abductee.remove();
-    }, 4500);
-  }
-
-  setTimeout(()=>ufo.remove(), 13000);
-}
-
-// UFO events on timer
-setInterval(()=>{
-  if (Math.random() < 0.10) triggerUFO();   // ~occasionally
-}, 8000);
-
-// Beam + abductee animations
-const style = document.createElement('style');
-style.textContent = `
-@keyframes beamFade {
-  0% {opacity:0;}
-  20% {opacity:1;}
-  80% {opacity:1;}
-  100% {opacity:0;}
-}
-@keyframes abduct {
-  0% {opacity:1; transform:translate(-50%,0);}
-  100% {opacity:0; transform:translate(-50%,-200px);}
-}`;
-document.head.appendChild(style);
