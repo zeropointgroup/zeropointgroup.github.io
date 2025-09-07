@@ -64,15 +64,16 @@
     @keyframes beamFade {0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}}
     @keyframes abduct {0%{opacity:1; transform:translateY(0)}100%{opacity:0; transform:translateY(-200px)}}
 
-    /* Alien: descend halfway, wiggle, return */
+    /* Alien: descend from UFO, wiggle, return */
     @keyframes alienPeek {
-      0%   {transform:translateY(0); opacity:1;}
-      25%  {transform:translateY(80px);} /* descend */
-      45%  {transform:translateY(80px) rotate(-8deg);} /* wiggle */
-      55%  {transform:translateY(80px) rotate(8deg);}
-      65%  {transform:translateY(80px) rotate(-8deg);}
-      75%  {transform:translateY(80px) rotate(8deg);}
-      100% {transform:translateY(0); opacity:0;} /* back into craft */
+      0%   {transform:translateY(0); opacity:0;}       /* inside UFO */
+      10%  {opacity:1;}                                /* fade in */
+      25%  {transform:translateY(100px); opacity:1;}   /* descend */
+      45%  {transform:translateY(100px) rotate(-8deg);}/* wiggle */
+      55%  {transform:translateY(100px) rotate(8deg);}
+      65%  {transform:translateY(100px) rotate(-8deg);}
+      75%  {transform:translateY(100px) rotate(8deg);}
+      100% {transform:translateY(0); opacity:0;}       /* back into UFO */
     }
 
     header{ padding:2rem; display:flex; justify-content:space-between; align-items:center; }
@@ -152,7 +153,7 @@
           if(mode==="weightlifter"){ abductee.textContent="🏋️‍♂️"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
           if(mode==="sexygirl"){ abductee.textContent="💃"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
           if(mode==="cow"){ abductee.textContent="🐄"; abductee.style.top="200px"; abductee.style.animation="abduct 4s forwards"; }
-          if(mode==="alien"){ abductee.textContent="👽"; abductee.style.top="46px"; abductee.style.animation="alienPeek 4s forwards"; }
+          if(mode==="alien"){ abductee.textContent="👽"; abductee.style.top="0px"; abductee.style.animation="alienPeek 4s forwards"; }
 
           container.appendChild(abductee);
           setTimeout(()=>{ beam.remove(); abductee.remove(); },4500);
