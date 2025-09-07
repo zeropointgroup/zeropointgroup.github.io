@@ -85,6 +85,38 @@
         100% { opacity: 0; transform: translate(-600px,600px) rotate(45deg); }
       }
 
+      /* --- UFO --- */
+      .ufo {
+        position: absolute;
+        width: 60px;
+        height: 25px;
+        background: radial-gradient(ellipse at center, #bbb 0%, #555 80%);
+        border-radius: 50% / 50%;
+        box-shadow: 0 0 10px rgba(0,255,255,0.7);
+        opacity: 0;
+        z-index: 5;
+        animation: flyAcross 10s linear;
+      }
+
+      .ufo::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 8px;
+        background: radial-gradient(ellipse at center, rgba(0,255,255,0.6), transparent);
+        border-radius: 50%;
+      }
+
+      @keyframes flyAcross {
+        0%   { transform: translateX(-200px) translateY(0); opacity: 0; }
+        10%  { opacity: 1; }
+        90%  { opacity: 1; }
+        100% { transform: translateX(120vw) translateY(-50px); opacity: 0; }
+      }
+
       /* --- CONTENT --- */
       body.light {
         background: #fff;
@@ -241,6 +273,21 @@
       setInterval(() => {
         if (Math.random() < 0.2) createShootingStar();
       }, 4000);
+
+      // UFO flybys
+      function createUFO() {
+        const ufo = document.createElement("div");
+        ufo.className = "ufo";
+        ufo.style.top = (Math.random() * window.innerHeight * 0.5) + "px"; // upper half
+        document.body.appendChild(ufo);
+
+        setTimeout(() => ufo.remove(), 10000);
+      }
+
+      // ~5% chance every 2s = about once per 30–60s
+      setInterval(() => {
+        if (Math.random() < 0.05) createUFO();
+      }, 2000);
     </script>
   </body>
 </html>
